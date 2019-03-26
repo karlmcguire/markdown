@@ -21,53 +21,40 @@ scan(char c) {
 
 int
 main() {
-    struct token *token; 
-    enum token_type type;
-    struct string *string;
-    char c; 
-    
-    LIST_HEAD(token_list, tokne) head;
-    LIST_INIT(&head);
+    struct token *prev; 
+    struct token *curr;
+    struct token *next;   
 
-
-    for (;;) {
-        type = scan(getchar()); 
-        
-        if (type == T_TEXT) {
-                
-        }
-
-        // finished reading the file
-        if (type == T_EOF) break; 
-    }
-    
-    /*
     LIST_HEAD(token_list, token) head;
     LIST_INIT(&head);
 
-    struct token *first = token_new(T_TEXT, NULL);
-    LIST_INSERT_HEAD(&head, first, list);
-
-    struct token *prev = first;
-    struct token *curr;
-
-    unsigned int i = 0;
+    // empty first token for the list head
+    prev = token_new(T_SKIP, NULL);
+    LIST_INSERT_HEAD(&head, prev, list);
 
     for (;;) {
-    }
-
-    for (char c = getchar(); c != EOF; c = getchar()) {
-        curr = token_new(scan(c), NULL);
-
+        // create current token 
+        curr = token_new(scan(getchar()), NULL);
+      
+        // insert new token
         LIST_INSERT_AFTER(prev, curr, list);
+
+        // set the previous element for next iteration
+        prev = curr;
+
+        // finished reading the file
+        if (curr->type == T_EOF) break; 
+    }
+    
+    LIST_FOREACH(curr, &head, list) {
+        next = LIST_NEXT(prev, list);
+
+        if (curr->type == T_TEXT) {
+            
+        }
 
         prev = curr;
     }
-
-    LIST_FOREACH(curr, &head, list) {
-        printf("%d\n", curr->type);
-    }
-    */
 
     return 0;
 }

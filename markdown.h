@@ -4,6 +4,7 @@ struct string {
 };
 
 enum token_type {
+    T_SKIP, 
     T_EOF,
     T_UNDERSCORE,
     T_STAR,
